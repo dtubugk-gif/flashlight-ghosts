@@ -2,20 +2,23 @@
 // The models were made in Blender (art/blender). They are drawn by three.js into an offscreen WebGL
 // canvas that the game composites into its 2D canvas between the room and the embers, using the
 // game's own camera (so the 3D ghosts sit exactly where the 2D game logic says they are).
+// Every ghost is rigged and animated in Blender (art/blender/rig_ghosts.py): Idle, Reach, Hurt, Scream
+// (and Tip for the top-hat ghost). Here they are blended by how close and how burned each ghost is.
 // The flashlight is a real spotlight on the cloth. Burning chars the cloth from the hem up, and a
 // burned ghost dissolves into glowing embers. All of that, the ghostly rim glow and the cloth
 // flutter are done in the shaders below.
 import * as THREE from 'three';
 import { GLTFLoader } from './lib/loaders/GLTFLoader.js';
+import { clone as cloneSkinned } from './lib/utils/SkeletonUtils.js';
 
 // Per ghost type: model file, how it looks in the game, how its cloth moves.
 // breath: how much the body swells and sinks; reach: how far the arms stretch toward you up close
 const LOOK = {
-  sheet:  { file: 'models/sheet.glb',  tint: [1.0, 0.98, 0.95], glow: [0.20, 0.22, 0.27], flutter: 1.0, rough: 0.88, breath: 0.03, reach: 1.0 },
-  wisp:   { file: 'models/wisp.glb',   tint: [0.84, 0.93, 1.06], glow: [0.30, 0.42, 0.58], flutter: 1.6, rough: 0.9, breath: 0.04, reach: 0.4 },
-  wraith: { file: 'models/wraith.glb', tint: [0.4, 0.38, 0.42], glow: [0.05, 0.05, 0.07], flutter: 0.75, rough: 0.95, breath: 0.022, reach: 0.6 },
-  gent:   { file: 'models/gent.glb',   tint: [1.0, 1.0, 1.0],    glow: [0.20, 0.20, 0.22], flutter: 0.55, rough: 0.6, breath: 0.035, reach: 0.7 },
-  imp:    { file: 'models/imp.glb',    tint: [1.0, 1.0, 1.0],    glow: [0.05, 0.02, 0.02], flutter: 1.2, rough: 0.75, breath: 0.018, reach: 1.0 },
+  sheet:  { file: 'models/sheet.glb',  tint: [1.0, 0.98, 0.95], glow: [0.20, 0.22, 0.27], flutter: 0.45, rough: 0.88, breath: 0.018, reach: 0 },
+  wisp:   { file: 'models/wisp.glb',   tint: [0.84, 0.93, 1.06], glow: [0.30, 0.42, 0.58], flutter: 0.7, rough: 0.9, breath: 0.025, reach: 0 },
+  wraith: { file: 'models/wraith.glb', tint: [0.3, 0.285, 0.31], glow: [0.05, 0.05, 0.07], flutter: 0.4, rough: 0.95, breath: 0.012, reach: 0 },
+  gent:   { file: 'models/gent.glb',   tint: [1.0, 1.0, 1.0],    glow: [0.20, 0.20, 0.22], flutter: 0.2, rough: 0.6, breath: 0.0, reach: 0 },
+  imp:    { file: 'models/imp.glb',    tint: [1.0, 1.0, 1.0],    glow: [0.05, 0.02, 0.02], flutter: 0.5, rough: 0.75, breath: 0.0, reach: 0 },
 };
 const NOFLUTTER = new Set(['M_Bone', 'M_Hat', 'M_Band']);
 const NOGLOW = new Set(['M_Hat', 'M_Band']);
@@ -143,7 +146,8 @@ export async function createGhost3D() {
     const size = box.getSize(new THREE.Vector3()), center = box.getCenter(new THREE.Vector3());
     body.geometry.computeBoundingBox();
     const bb = body.geometry.boundingBox;
-    proto[type] = { root, look, height: size.y, center, top: bb.max.y, bodyH: bb.max.y - bb.min.y, halfW: Math.max(Math.abs(bb.min.x), Math.abs(bb.max.x)) };
+    const clips = {}; for (const c of gltf.animations) clips[c.name] = c;
+    proto[type] = { root, look, clips, height: size.y, center, top: bb.max.y, bodyH: bb.max.y - bb.min.y, halfW: Math.max(Math.abs(bb.min.x), Math.abs(bb.max.x)) };
   }));
 
   // ---------- instances (pooled per type, so shaders and materials are made once)
@@ -159,13 +163,14 @@ export async function createGhost3D() {
     const Ufix = { ...U, uFlutter: { value: 0 }, uWrithe: { value: 0 }, uReach: { value: 0 }, uBreath: { value: 0 } };   // hands, hats: rigid
     const Uhat = { ...Ufix, uGlow: { value: new THREE.Vector3(0, 0, 0) } };   // the hat stays black
     const holder = new THREE.Group(); holder.matrixAutoUpdate = false;
-    const model = P.root.clone(true);
+    const model = cloneSkinned(P.root);   // its own skeleton
+    const mixer = new THREE.AnimationMixer(model);
+    const acts = {};
+    for (const [n, clip] of Object.entries(P.clips)) { const a = mixer.clipAction(clip); a.play(); a.setEffectiveWeight(n === 'Idle' ? 1 : 0); acts[n] = a; }
     model.position.sub(P.center);
     holder.add(model);
-    const parts = { hands: [], hat: [] };
     const extra = [];
     model.traverse(o => {
-      if (o.name.startsWith('Hand_')) parts.hands.push({ o, rx: o.rotation.x, rz: o.rotation.z });
       if (!o.isMesh) return;
       const src = o.material, name = src.name || '';
       const isEyes = name === 'M_Eyes' && !!src.emissive && src.emissive.getHex() !== 0, isVoid = name === 'M_Void';   // glowing eyes (imp, wraith)
@@ -187,25 +192,19 @@ export async function createGhost3D() {
         if (isEyes) mat.color.setRGB(0.12, 0.05, 0.02);   // embers: the colour comes from the glow
         if (mat.normalMap) mat.normalScale.set(1, 1);
         patchColor(mat, uni, isEyes);
-        if (name === 'M_Hat' || name === 'M_Band') parts.hat.push(o);
       }
       o.material = mat;
       o.frustumCulled = false;
       // depth pre-pass twin: only the front-most layer of the ghost gets blended (clean see-through cloth)
-      const d = new THREE.Mesh(o.geometry, depthMaterial(uni, THREE.DoubleSide));
+      let d;
+      if (o.isSkinnedMesh) { d = new THREE.SkinnedMesh(o.geometry, depthMaterial(uni, THREE.DoubleSide)); d.bind(o.skeleton, o.bindMatrix); }
+      else d = new THREE.Mesh(o.geometry, depthMaterial(uni, THREE.DoubleSide));
       d.frustumCulled = false;
       extra.push([o, d]);
     });
     for (const [o, d] of extra) { o.parent.add(d); d.position.copy(o.position); d.quaternion.copy(o.quaternion); d.scale.copy(o.scale); o.userData.depth = d; }
     // the hat sits on top and is lifted when the gentleman tips it
-    let hatPivot = null;
-    if (parts.hat.length) {
-      const hb = new THREE.Box3(); parts.hat.forEach(m => hb.expandByObject(m));
-      hatPivot = new THREE.Group(); const c = hb.getCenter(new THREE.Vector3()); c.y = hb.min.y; c.x = hb.min.x; // tip from the brim's edge
-      model.add(hatPivot); hatPivot.position.copy(c);
-      for (const m of parts.hat) { const dd = m.userData.depth; hatPivot.attach(m); if (dd) hatPivot.attach(dd); }
-    }
-    return { type, holder, model, U, Ufix, parts, hatPivot, meshes: extra };
+    return { type, holder, model, U, Ufix, mixer, acts, meshes: extra };
   }
   function acquire(type) { const i = pool[type].pop() || makeInstance(type); scene.add(i.holder); return i; }
   function release(inst) { scene.remove(inst.holder); pool[inst.type].push(inst); }
@@ -224,6 +223,20 @@ export async function createGhost3D() {
     m4.setPosition(vP.set(pos[0], pos[1], pos[2]));
     inst.holder.matrix.copy(m4);
     inst.holder.matrixWorldNeedsUpdate = true;
+  }
+  // Idle, Reach and Hurt blend by how close and how burned the ghost is; Tip and Scream on top
+  function animate(inst, t, w) {
+    const a = inst.acts, tip = a.Tip ? (w.tip || 0) : 0, scream = w.scream || 0;
+    const rest = Math.max(0, 1 - tip - scream);
+    const hurt = Math.min(1, w.hurt || 0), reach = (1 - hurt) * Math.min(1, w.reach || 0), idle = Math.max(0, 1 - hurt - reach);
+    if (a.Idle) a.Idle.setEffectiveWeight(idle * rest);
+    if (a.Reach) a.Reach.setEffectiveWeight(reach * rest);
+    if (a.Hurt) a.Hurt.setEffectiveWeight(hurt * rest);
+    if (a.Scream) a.Scream.setEffectiveWeight(scream);
+    if (a.Tip) a.Tip.setEffectiveWeight(tip);
+    inst.mixer.setTime(t);
+    if (a.Scream && scream) a.Scream.time = w.screamT || 0;
+    if (a.Tip && tip) a.Tip.time = (w.tipT || 0) * a.Tip.getClip().duration;
   }
   function setOrder(inst, rank) {
     for (const [o, d] of inst.meshes) { d.renderOrder = 10 + rank * 2; o.renderOrder = 11 + rank * 2; }
@@ -261,7 +274,8 @@ export async function createGhost3D() {
         const p = [0, 1, 2].map(i => cam.F[i] * dist - cam.U[i] * face);
         place(scareInst, p, 1.0, { tilt: 0.12, yaw: 0, roll: Math.sin(scare.t * 30) * 0.05 });
         for (const U of [scareInst.U, scareInst.Ufix]) { U.uTime.value = Math.floor(scare.t * 3 * 12) / 12; U.uBurn.value = 0; U.uChar.value = 0; U.uDying.value = 0; U.uOpacity.value = Math.min(1, 0.6 + u); U.uEyes.value = 1; U.uAppear.value = 1; U.uEyeFlare.value = 2.5; }
-        scareInst.U.uReach.value = proto[scare.type].look.reach * (0.6 + 0.4 * e); scareInst.U.uWrithe.value = 0.35;
+        scareInst.U.uReach.value = 0; scareInst.U.uWrithe.value = 0.25;
+        animate(scareInst, scare.t, { scream: 1, screamT: Math.min(0.62, scare.t * 1.8) });
         flash.position.set(cam.F[0] * 0.2 - cam.U[0] * 0.2, cam.F[1] * 0.2 - cam.U[1] * 0.2, cam.F[2] * 0.2 - cam.U[2] * 0.2);
         flash.intensity = 0.8 + 2.2 * e;
         setOrder(scareInst, 0);
@@ -294,7 +308,7 @@ export async function createGhost3D() {
         // up close and unlit it moves in stop-motion: the time steps instead of flowing
         const tq = g.stutter ? Math.floor(g.t * 9) / 9 : g.t;
         const L = proto[g.type].look;
-        inst.U.uWrithe.value = d >= 0 ? 0.8 : g.burn;
+        inst.U.uWrithe.value = (d >= 0 ? 0.8 : g.burn) * 0.4;   // the Hurt action writhes; this adds a shiver
         inst.U.uReach.value = L.reach * (g.reach || 0);
         for (const U of [inst.U, inst.Ufix]) {
           U.uTime.value = tq;
@@ -308,8 +322,7 @@ export async function createGhost3D() {
         }
         inst.U.uFlutter.value = flut;
         // the wraith's hands grasp, the gentleman tips his hat
-        for (const h of inst.parts.hands) h.o.rotation.x = h.rx + Math.sin(tq * 1.6 + h.rz * 9) * 0.16 - (g.reach || 0) * 0.55 + g.burn * Math.sin(tq * 20) * 0.2;
-        if (inst.hatPivot) inst.hatPivot.rotation.z = (g.hatTip || 0) * 0.45;
+        animate(inst, tq + g.seed * 7, { hurt: d >= 0 ? 1 : g.burn, reach: g.reach || 0, tip: g.hatTip || 0, tipT: g.hatTipT || 0 });
         setOrder(inst, rank++);
       }
       for (const [g, inst] of live) if (!seen.has(g)) { release(inst); live.delete(g); }
@@ -319,6 +332,12 @@ export async function createGhost3D() {
     },
     /** drop every instance (new game / menu) */
     clear() { for (const [g, inst] of live) release(inst); live.clear(); },
+    /** test hook: what each live ghost is made of */
+    inspect() {
+      const out = [];
+      for (const inst of live.values()) inst.model.traverse(o => { if (o.isMesh && o.material && o.material.name !== undefined) out.push({ type: inst.type, mesh: o.name, skinned: !!o.isSkinnedMesh, mat: o.material.type, map: !!o.material.map, cs: o.material.map && o.material.map.colorSpace, img: o.material.map && o.material.map.image && o.material.map.image.width, color: o.material.color && o.material.color.getHexString(), emissive: o.material.emissive && o.material.emissive.getHexString(), visible: o.visible }); });
+      return out;
+    },
     info() { return { live: live.size, calls: renderer.info.render.calls, tris: renderer.info.render.triangles, programs: renderer.info.programs.length }; },
   };
   return api;

@@ -1,0 +1,86 @@
+Flashlight Ghosts - sound effects credits
+
+All recorded sounds come from the Sonniss GDC 2026 Game Audio Bundle (royalty-free, commercial use,
+no attribution required; this file lists the sources anyway). Processing, editing and mixing:
+tools/build_sfx.py in this project.
+
+amb_drone.m4a
+    344 Audio - Ghostly Presences Vol. 1: "Evil Spell Ambience" (library id 9b8bf3d2, 96.000-130.900s)
+    InMotionAudio - Chimney Wind: "ChimneyWind05" (library id 58bc2918, 20.000-61.100s)
+
+amb_house.m4a
+    Jake Fielding - Interior Wind Rain and Storms: "Heavy Rain on Window,  Constant" (library id 10fdbd3b, 0.000-30.700s)
+    344 Audio - Antique Clocks: "Crooked Antique Clock" (library id 27e5f137, 0.600-30.600s)
+
+moan_1.m4a
+    SoundBits - Vox Bestiae - Source Elements: "Ethereal Entity Grim Pain Long 4" (library id d09f41de, 0.000-1.660s)
+
+moan_2.m4a
+    The Noisery - Moaning Metal: "Designed Metal Bowed Screech Tonal Reverb 7" (library id 0390affe, 1.000-10.600s)
+
+moan_3.m4a
+    InMotionAudio - The Death Whistle: "Aztec Death Whistle Drone" (library id 416091ae, 0.500-15.200s)
+
+moan_4.m4a
+    SoundBits - Vox Bestiae - Source Elements: "Ethereal Entity Grim Pain Long 4" (library id d09f41de, 0.000-1.660s)
+    The Noisery - Moaning Metal: "Designed Metal Bowed Screech Tonal Reverb 7" (library id 0390affe, 9.000-14.000s)
+
+growl.m4a
+    Epic Stock Media - Halloween Game - Haunted House and Horror Audio Scare Kit: "Creature Werewolf Growl Menacing Monstrous 06" (library id 229670c0, 0.100-2.300s)
+
+hiss.m4a
+    Epic Stock Media - Humanoid Creatures Vol 4 - Monstrous and Undead Creature Vocalization Sound Sets: "Construction Kit Male Screeching Breath Inhale Weak Squeal 05" (library id 5f85b553, 0.400-0.900s)
+    SoundBits - Vox Bestiae - Source Elements: "Violent Humanoid Creature Exhale Short 4" (library id d50e11fb, 0.000-0.430s)
+
+scare.m4a
+    Epic Stock Media - Halloween Game - Haunted House and Horror Audio Scare Kit: "Jumpscare Vocal Aggressive Whisper Harsh Distortion 02" (library id fc005d01, 0.150-2.200s)
+    Epic Stock Media - Halloween Game - Haunted House and Horror Audio Scare Kit: "Gore Designed Transient Heavy Impact Smash 01" (library id 38c2c8be, 0.000-1.801s)
+    344 Audio - Bass Drops & Downers Vol. 2: "Bass Drop & Downer Fast 12" (library id 4d1b008c, 0.000-1.600s)
+
+burn_loop.m4a
+    Epic Stock Media - Synthesized Nature Loops and Sounds: "Loop Elements Fire Crackling Crunchy Flame Burn 03" (library id 1e32b8dc, 0.800-9.800s, 3.300-12.300s)
+
+death.m4a
+    SoundBits - Vox Bestiae - Source Elements: "Ethereal Entity Grim Pain Long 4" (library id d09f41de, 0.000-1.660s)
+    Epic Stock Media - Elemental Mutation Whooshes and Impacts: "Whoosh Fire Deep Growl Monster Saturated Crisp 03" (library id 5cd992a0, 0.100-2.480s)
+
+death_big.m4a
+    Epic Stock Media - Elemental Mutation Whooshes and Impacts: "Whoosh Fire Deep Growl Monster Saturated Crisp 03" (library id 5cd992a0, 0.100-2.480s)
+    Epic Stock Media - Humanoid Creatures Vol 4 - Monstrous and Undead Creature Vocalization Sound Sets: "Designed Sea Beast Creature Pain Intense Yell Long 04" (library id 97464859, 0.080-2.950s)
+
+click_on.m4a
+    Epic Stock Media - HD Lock And Mechanism Sound Design Kit: "Click Deep Mechanism Latch Button Nearfield Thunk 02" (library id d71f91d6, 0.000-0.160s)
+
+click_off.m4a
+    Epic Stock Media - Board Game - Sound Set Kit for Tabletop and Digital Games: "UI Button Analog Vintage Double Click Neutral Dry Press 11" (library id e6a78f5b, 0.005-0.090s)
+
+glitch.m4a
+    Epic Stock Media - Elemental Mutation Whooshes and Impacts: "Impact Electric Tonal Deep Movement Motion Hiss Glitch 01" (library id 5f9a67a2, 0.000-0.500s)
+    Epic Stock Media - Anime Game: "Misc Monster Tentacle Modulated Creature Shadow Abstract Swept Wobble Lfo 02" (library id 04db6fba, 0.500-1.100s)
+
+bell.m4a
+    Ivo Vicic - Church Bells: "04 Church Bells, Near Distance, In Church Tower-3 Different Bell 02" (library id e05dae67, 11.690-15.240s)
+
+braam.m4a
+    Jake Fielding - Cinematic Horn Braams: "DSGNBram____Cinematic Horn Braam, Epic, Cinematic, Dark, Instrument, Huge-67" (library id f758b7ae, 0.100-3.700s)
+
+cleared.m4a
+    Sonic Bat - Music Boxes: "SBmb Music Box A 013" (library id 3949ca5c, 0.040-2.800s)
+
+relight.m4a
+    Epic Stock Media - Fantasy Game 2 - Sound Kit for Enchanted Realms: "Magic Light Spell Enchantment Potion Effect Tonal Bright 03" (library id ee30bf2c, 0.000-1.250s)
+
+powerdown.m4a
+    InMotionAudio - Arc: "ArcDesign15" (library id 3f212815, 0.000-1.040s)
+
+creak_1.m4a
+    344 Audio - Cinema Experience Vol. 1: "Sitting Down, Creaky Seat, Squeaks 3" (library id e815b5d5, 0.120-1.250s)
+
+creak_2.m4a
+    344 Audio - Cinema Experience Vol. 1: "Sitting Down, Creaky Seat, Squeaks 3" (library id e815b5d5, 2.000-3.420s)
+
+whoosh.m4a
+    344 Audio - Elemental Palette Designed Vol. 1: "Wind, Rush, Whoosh, Long x5 01" (library id a7dda81c, 0.520-1.040s)
+
+Licence (Sonniss GDC 2026 Game Audio Bundle, 'License - GDC Game Audio.pdf' in the bundle): royalty-free,
+commercial use allowed, no credit required; media production only (games, apps, video); not for AI/ML training.

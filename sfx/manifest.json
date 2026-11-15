@@ -1,0 +1,1253 @@
+[
+  {
+    "file": "amb_drone.m4a",
+    "role": "ambience bed: dark ghostly room tone (main game)",
+    "dur": 36.0,
+    "loop": true,
+    "accent": null,
+    "onset": null,
+    "lufs": -28.0,
+    "lufs_kind": "integrated",
+    "lufs_i": -28.0,
+    "lufs_m_max": -23.1,
+    "lufs_s_max": -25.4,
+    "peak_dbfs": -13.31,
+    "true_peak_dbtp": -13.31,
+    "ffmpeg_ebur128": {
+      "lufs_i": -28.0,
+      "true_peak_dbtp": -13.3
+    },
+    "suggested_gain": 0.8,
+    "channels": 2,
+    "bitrate": "128k",
+    "samples": 1587600,
+    "bytes": 584681,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 431,
+      "pct_below_250hz": 26.3,
+      "pct_250_2k": 73.5,
+      "pct_2k_8k": 0.2,
+      "pct_above_8k": 0.0
+    },
+    "notes": "Seamless 36.000 s loop; loop the whole buffer.",
+    "sources": [
+      {
+        "id": "9b8bf3d2",
+        "desc": "Evil Spell Ambience",
+        "pack": "Ghostly Presences Vol. 1",
+        "vendor": "344 Audio",
+        "ranges": [
+          "96.000-130.900s"
+        ]
+      },
+      {
+        "id": "58bc2918",
+        "desc": "ChimneyWind05",
+        "pack": "Chimney Wind",
+        "vendor": "InMotionAudio",
+        "ranges": [
+          "20.000-61.100s"
+        ]
+      }
+    ],
+    "mono_fold": [],
+    "processing": "9b8bf3d2 Evil Spell Ambience 96.00-130.90 s (its calmest stretch: lowest 1 s level std-dev in the file), slowed x0.85 (-2.8 st, slower and lower), HP 35 Hz + 4th-order LP 2.6 kHz (removes the bright sparkle events); + 58bc2918 ChimneyWind05 20.0-61.1 s, HP 40 Hz, 9 LU under the drone, centred. Loop: 36 s with the following 5 s equal-power crossfaded into the head.",
+    "wrap_check": {
+      "rms_last50": -29.1,
+      "rms_first50": -31.9,
+      "rms_delta_typical_p95": 3.2,
+      "wrap_jump": 0.00769,
+      "median_step": 0.00127,
+      "step_p99_9": 0.0097,
+      "seam_hf_vs_median_db": 10.1,
+      "file_hf_p99_vs_median_db": 13.3
+    },
+    "loop_start": 0.0,
+    "loop_end": 36.0
+  },
+  {
+    "file": "amb_house.m4a",
+    "role": "ambience bed: rain on the window + distant antique clock (painted haunted-house mode)",
+    "dur": 30.0,
+    "loop": true,
+    "accent": null,
+    "onset": null,
+    "lufs": -28.1,
+    "lufs_kind": "integrated",
+    "lufs_i": -28.1,
+    "lufs_m_max": -24.5,
+    "lufs_s_max": -25.5,
+    "peak_dbfs": -11.64,
+    "true_peak_dbtp": -11.61,
+    "ffmpeg_ebur128": {
+      "lufs_i": -28.0,
+      "true_peak_dbtp": -11.6
+    },
+    "suggested_gain": 0.8,
+    "channels": 2,
+    "bitrate": "128k",
+    "samples": 1323000,
+    "bytes": 487343,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 934,
+      "pct_below_250hz": 28.1,
+      "pct_250_2k": 59.0,
+      "pct_2k_8k": 12.5,
+      "pct_above_8k": 0.3
+    },
+    "notes": "Seamless 30.000 s loop = exactly 30 clock ticks (the clock's 6-tick 'crooked' pattern repeats 5x).",
+    "sources": [
+      {
+        "id": "10fdbd3b",
+        "desc": "Heavy Rain on Window,  Constant",
+        "pack": "Interior Wind Rain and Storms",
+        "vendor": "Jake Fielding",
+        "ranges": [
+          "0.000-30.700s"
+        ]
+      },
+      {
+        "id": "27e5f137",
+        "desc": "Crooked Antique Clock",
+        "pack": "Antique Clocks",
+        "vendor": "344 Audio",
+        "ranges": [
+          "0.600-30.600s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "27e5f137: mono sum OK (worst band -0.0 dB)"
+    ],
+    "processing": "10fdbd3b Heavy Rain on Window, Constant 0.00-30.70 s, HP 70 Hz, LP 10 kHz (soft) -> 30.0 s loop with 0.7 s equal-power crossfade (stationary rain). 27e5f137 Crooked Antique Clock 0.600-30.600 s = exactly 30 ticks; cut points fall in the recording's digital silence between ticks, so the clock loops sample-exactly; processed circularly: HP 250 Hz, LP 3.2 kHz, -6 dB high shelf, stereo room reverb RT60 1.2 s (wet 0.8) so it sounds in another room; slightly left; 11 LU under the rain (ticks measure ~+7 dB over the rain in the 1.2-4 kHz band).",
+    "wrap_check": {
+      "rms_last50": -34.7,
+      "rms_first50": -35.3,
+      "rms_delta_typical_p95": 2.6,
+      "wrap_jump": 0.00373,
+      "median_step": 0.00353,
+      "step_p99_9": 0.02407,
+      "seam_hf_vs_median_db": 1.3,
+      "file_hf_p99_vs_median_db": 5.6
+    },
+    "loop_start": 0.0,
+    "loop_end": 30.0
+  },
+  {
+    "file": "moan_1.m4a",
+    "role": "ghost moan (vocal wail, mid)",
+    "dur": 3.0,
+    "loop": false,
+    "accent": 0.647,
+    "onset": 0.038,
+    "lufs": -16.0,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -20.0,
+    "lufs_m_max": -16.0,
+    "lufs_s_max": -21.4,
+    "peak_dbfs": -7.13,
+    "true_peak_dbtp": -7.12,
+    "ffmpeg_ebur128": {
+      "lufs_i": -20.0,
+      "true_peak_dbtp": -7.1
+    },
+    "suggested_gain": 0.7,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 132300,
+    "bytes": 31890,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 415,
+      "pct_below_250hz": 0.2,
+      "pct_250_2k": 99.5,
+      "pct_2k_8k": 0.3,
+      "pct_above_8k": 0.0
+    },
+    "notes": "Soft 150 ms attack, long fade. Vary pitch with playbackRate 0.6-1.5.",
+    "sources": [
+      {
+        "id": "d09f41de",
+        "desc": "Ethereal Entity Grim Pain Long 4",
+        "pack": "Vox Bestiae - Source Elements",
+        "vendor": "SoundBits",
+        "ranges": [
+          "0.000-1.660s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "d09f41de: mono source"
+    ],
+    "processing": "d09f41de Ethereal Entity Grim Pain Long 4, 0.00-1.66 s, slowed x0.78 (-4.3 st, ~330-450 Hz wail), HP 120 Hz, 150 ms fade-in, 0.45 s fade-out, hall reverb RT60 2.0 s wet 0.35, tail faded to 3.0 s."
+  },
+  {
+    "file": "moan_2.m4a",
+    "role": "ghost moan (bowed-metal tonal groan)",
+    "dur": 3.2,
+    "loop": false,
+    "accent": 0.525,
+    "onset": 0.05,
+    "lufs": -16.0,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -21.7,
+    "lufs_m_max": -16.0,
+    "lufs_s_max": -23.2,
+    "peak_dbfs": -7.83,
+    "true_peak_dbtp": -7.82,
+    "ffmpeg_ebur128": {
+      "lufs_i": -21.6,
+      "true_peak_dbtp": -7.8
+    },
+    "suggested_gain": 0.7,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 141120,
+    "bytes": 36875,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 350,
+      "pct_below_250hz": 0.1,
+      "pct_250_2k": 99.8,
+      "pct_2k_8k": 0.0,
+      "pct_above_8k": 0.0
+    },
+    "notes": "Soft 250 ms attack, long fade. Tonal ~330 Hz with metallic partials around 1-1.7 kHz.",
+    "sources": [
+      {
+        "id": "0390affe",
+        "desc": "Designed Metal Bowed Screech Tonal Reverb 7",
+        "pack": "Moaning Metal",
+        "vendor": "The Noisery",
+        "ranges": [
+          "1.000-10.600s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "0390affe: mono sum OK (worst band -2.8 dB)"
+    ],
+    "processing": "0390affe Designed Metal Bowed Screech Tonal Reverb 7, 1.00-10.60 s (the bowed swell and its decay), sped x3 (+19 st: the ~110 Hz bowed tone becomes ~330 Hz with partials near 1.0/1.35/1.7 kHz, so phone speakers carry it; at x2 a phone lost 9 dB of it), HP 220 Hz (4th order), LP 6 kHz, 250 ms fade-in, 1.2 s fade-out (3.2 s)."
+  },
+  {
+    "file": "moan_3.m4a",
+    "role": "ghost moan (hollow wavering hoot)",
+    "dur": 3.1,
+    "loop": false,
+    "accent": 1.474,
+    "onset": 0.05,
+    "lufs": -16.0,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -17.6,
+    "lufs_m_max": -16.0,
+    "lufs_s_max": -19.3,
+    "peak_dbfs": -3.81,
+    "true_peak_dbtp": -3.8,
+    "ffmpeg_ebur128": {
+      "lufs_i": -17.5,
+      "true_peak_dbtp": -3.8
+    },
+    "suggested_gain": 0.7,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 136710,
+    "bytes": 33478,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 407,
+      "pct_below_250hz": 0.4,
+      "pct_250_2k": 99.5,
+      "pct_2k_8k": 0.1,
+      "pct_above_8k": 0.0
+    },
+    "notes": "Soft 300 ms attack, long fade. Hollow ~310 Hz hoot with a 6-8 Hz waver.",
+    "sources": [
+      {
+        "id": "416091ae",
+        "desc": "Aztec Death Whistle Drone",
+        "pack": "The Death Whistle",
+        "vendor": "InMotionAudio",
+        "ranges": [
+          "0.500-15.200s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "416091ae: dual-mono source (L)"
+    ],
+    "processing": "416091ae Aztec Death Whistle Drone, 0.50-15.20 s (its whole sustained body). The file is a ~52 Hz sub drone (nothing above 600 Hz), so it is sped x6 (+31 st) to ~310 Hz: its slow swells become a 6-8 Hz wavering hoot (x4/x5 were measured too low for phone speakers). tanh drive (x3.5) adds upper harmonics, HP 230 Hz (4th order), LP 5 kHz, 300 ms fade-in, 0.8 s fade-out, reverb RT60 1.6 s wet 0.3, tail to 3.1 s."
+  },
+  {
+    "file": "moan_4.m4a",
+    "role": "ghost moan (reverse-swell wail over a metallic shimmer)",
+    "dur": 3.4,
+    "loop": false,
+    "accent": 1.42,
+    "onset": 0.682,
+    "lufs": -16.0,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -19.2,
+    "lufs_m_max": -16.0,
+    "lufs_s_max": -20.8,
+    "peak_dbfs": -5.88,
+    "true_peak_dbtp": -5.88,
+    "ffmpeg_ebur128": {
+      "lufs_i": -19.2,
+      "true_peak_dbtp": -5.9
+    },
+    "suggested_gain": 0.7,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 149940,
+    "bytes": 35622,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 468,
+      "pct_below_250hz": 0.1,
+      "pct_250_2k": 99.6,
+      "pct_2k_8k": 0.2,
+      "pct_above_8k": 0.0
+    },
+    "notes": "Swells in over ~1 s (reverse reverb), wail peaks ~1.2 s, long fade. ~3.4 s.",
+    "sources": [
+      {
+        "id": "d09f41de",
+        "desc": "Ethereal Entity Grim Pain Long 4",
+        "pack": "Vox Bestiae - Source Elements",
+        "vendor": "SoundBits",
+        "ranges": [
+          "0.000-1.660s"
+        ]
+      },
+      {
+        "id": "0390affe",
+        "desc": "Designed Metal Bowed Screech Tonal Reverb 7",
+        "pack": "Moaning Metal",
+        "vendor": "The Noisery",
+        "ranges": [
+          "9.000-14.000s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "d09f41de: mono source",
+      "0390affe: mono sum OK (worst band -3.5 dB)"
+    ],
+    "processing": "d09f41de Grim Pain 0.00-1.66 s slowed x0.9 (-1.8 st) with a 'reverse reverb' swell (reversed, 1.0 s reverb wet-only, reversed back) leading into it; under it 0390affe Bowed Metal 9.00-14.00 s sped x2.5 (+15.9 st, airy metallic shimmer) at -11 dB, HP 200 Hz. Light reverb RT60 1.5 s on the whole, fades."
+  },
+  {
+    "file": "growl.m4a",
+    "role": "big wraith presence growl",
+    "dur": 2.736,
+    "loop": false,
+    "accent": 1.144,
+    "onset": 0.015,
+    "lufs": -15.0,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -16.0,
+    "lufs_m_max": -15.0,
+    "lufs_s_max": -17.6,
+    "peak_dbfs": -2.62,
+    "true_peak_dbtp": -2.61,
+    "ffmpeg_ebur128": {
+      "lufs_i": -15.9,
+      "true_peak_dbtp": -2.6
+    },
+    "suggested_gain": 0.85,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 120661,
+    "bytes": 33331,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 471,
+      "pct_below_250hz": 40.2,
+      "pct_250_2k": 57.6,
+      "pct_2k_8k": 2.2,
+      "pct_above_8k": 0.0
+    },
+    "notes": "Deep, dark; natural growl onset (40 ms ramp), fades over the last 0.8 s.",
+    "sources": [
+      {
+        "id": "229670c0",
+        "desc": "Creature Werewolf Growl Menacing Monstrous 06",
+        "pack": "Halloween Game - Haunted House and Horror Audio Scare Kit",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.100-2.300s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "229670c0: mono sum OK (worst band -0.3 dB)"
+    ],
+    "processing": "229670c0 Creature Werewolf Growl Menacing Monstrous 06, 0.10-2.30 s (onset + first sustained growl), slowed x0.77 (-4.5 st), HP 40 Hz, LP 2.8 kHz, +3 dB low shelf at 180 Hz, -3 dB at 1.2 kHz (darker), 40 ms fade-in, 0.8 s fade-out (2.86 s)."
+  },
+  {
+    "file": "hiss.m4a",
+    "role": "horned imp hiss behind the player",
+    "dur": 0.97,
+    "loop": false,
+    "accent": 0.44,
+    "onset": 0.04,
+    "lufs": -17.1,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -18.6,
+    "lufs_m_max": -17.1,
+    "lufs_s_max": -25.2,
+    "peak_dbfs": -1.88,
+    "true_peak_dbtp": -1.73,
+    "ffmpeg_ebur128": {
+      "lufs_i": -18.5,
+      "true_peak_dbtp": -1.7
+    },
+    "suggested_gain": 0.8,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 42777,
+    "bytes": 12302,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 717,
+      "pct_below_250hz": 39.3,
+      "pct_250_2k": 54.1,
+      "pct_2k_8k": 5.5,
+      "pct_above_8k": 1.1
+    },
+    "notes": "Short creepy inhale (soft) into a violent exhale; accent = the exhale.",
+    "sources": [
+      {
+        "id": "5f85b553",
+        "desc": "Construction Kit Male Screeching Breath Inhale Weak Squeal 05",
+        "pack": "Humanoid Creatures Vol 4 - Monstrous and Undead Creature Vocalization Sound Sets",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.400-0.900s"
+        ]
+      },
+      {
+        "id": "d50e11fb",
+        "desc": "Violent Humanoid Creature Exhale Short 4",
+        "pack": "Vox Bestiae - Source Elements",
+        "vendor": "SoundBits",
+        "ranges": [
+          "0.000-0.430s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "5f85b553: dual-mono source (L)",
+      "d50e11fb: mono source"
+    ],
+    "processing": "5f85b553 Screeching Breath Inhale Weak Squeal 05, 0.40-0.90 s (the squealing part), LP 7 kHz, -7 dB, 200 ms fade-in, then d50e11fb Violent Humanoid Creature Exhale Short 4, 0.00-0.43 s, slowed x0.92 (-1.4 st), starting at 0.36 s; small room reverb RT60 0.5 s wet 0.18; ~0.95 s."
+  },
+  {
+    "file": "scare.m4a",
+    "role": "JUMP SCARE hero sound",
+    "dur": 1.95,
+    "loop": false,
+    "accent": 0.298,
+    "onset": 0.004,
+    "lufs": -10.5,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -13.7,
+    "lufs_m_max": -10.5,
+    "lufs_s_max": -16.8,
+    "peak_dbfs": -1.09,
+    "true_peak_dbtp": -1.03,
+    "ffmpeg_ebur128": {
+      "lufs_i": -13.6,
+      "true_peak_dbtp": -1.0
+    },
+    "suggested_gain": 1.0,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 85995,
+    "bytes": 24664,
+    "limiter_gr_db": 0.6,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 1868,
+      "pct_below_250hz": 34.2,
+      "pct_250_2k": 35.2,
+      "pct_2k_8k": 27.0,
+      "pct_above_8k": 3.6
+    },
+    "notes": "Loudest file in the set. Distorted whisper rises into the hit at 0.30 s, then screams on.",
+    "sources": [
+      {
+        "id": "fc005d01",
+        "desc": "Jumpscare Vocal Aggressive Whisper Harsh Distortion 02",
+        "pack": "Halloween Game - Haunted House and Horror Audio Scare Kit",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.150-2.200s"
+        ]
+      },
+      {
+        "id": "38c2c8be",
+        "desc": "Gore Designed Transient Heavy Impact Smash 01",
+        "pack": "Halloween Game - Haunted House and Horror Audio Scare Kit",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.000-1.801s"
+        ]
+      },
+      {
+        "id": "4d1b008c",
+        "desc": "Bass Drop & Downer Fast 12",
+        "pack": "Bass Drops & Downers Vol. 2",
+        "vendor": "344 Audio",
+        "ranges": [
+          "0.000-1.600s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "fc005d01: mono sum OK (worst band -1.3 dB)",
+      "38c2c8be: mono sum OK (worst band -0.7 dB)",
+      "4d1b008c: dual-mono source (L)"
+    ],
+    "processing": "fc005d01 Jumpscare Vocal Aggressive Whisper Harsh Distortion 02, 0.15-2.20 s, placed at 0.00 (its build lands on the hit) + 38c2c8be Gore Designed Transient Heavy Impact Smash 01, whole file, transient aligned to 0.300 s + 4d1b008c Bass Drop & Downer Fast 12, 0.00-1.60 s, LP 140 Hz (sub only), aligned to 0.300 s, -1 dB. tanh soft saturation on the sum, fade-out last 0.5 s, look-ahead true-peak limiter."
+  },
+  {
+    "file": "burn_loop.m4a",
+    "role": "ghost burning: fire crackle/sizzle loop",
+    "dur": 8.0,
+    "loop": true,
+    "accent": null,
+    "onset": null,
+    "lufs": -22.4,
+    "lufs_kind": "integrated",
+    "lufs_i": -22.4,
+    "lufs_m_max": -19.7,
+    "lufs_s_max": -21.0,
+    "peak_dbfs": -1.19,
+    "true_peak_dbtp": -1.12,
+    "ffmpeg_ebur128": {
+      "lufs_i": -22.3,
+      "true_peak_dbtp": -1.0
+    },
+    "suggested_gain": 0.7,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 352800,
+    "bytes": 99048,
+    "limiter_gr_db": 3.0,
+    "pre_encode_ceiling_dbtp": -1.81,
+    "spectrum": {
+      "centroid_hz": 650,
+      "pct_below_250hz": 74.7,
+      "pct_250_2k": 18.9,
+      "pct_2k_8k": 4.2,
+      "pct_above_8k": 2.1
+    },
+    "notes": "Seamless 8.000 s loop; play while a ghost is in the beam, fade it in/out ~80 ms in code. Its roar is 150-250 Hz, so on phone speakers it reads ~5 dB quieter than its LUFS (the crackle carries).",
+    "sources": [
+      {
+        "id": "1e32b8dc",
+        "desc": "Loop Elements Fire Crackling Crunchy Flame Burn 03",
+        "pack": "Synthesized Nature Loops and Sounds",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.800-9.800s",
+          "3.300-12.300s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "1e32b8dc: mono source",
+      "1e32b8dc: mono source"
+    ],
+    "processing": "1e32b8dc Loop Elements Fire Crackling Crunchy Flame Burn 03 (mono): body layer 0.80-9.80 s, HP 80 Hz, -9 dB bell cut at 175 Hz (Q 0.8: the file is ~80 % 100-250 Hz roar by power, which phones cannot play); sizzle layer 3.30-12.30 s, HP 3.5 kHz (4th order), 0 dB. Each layer looped to 8.0 s with its last 1.0 s equal-power crossfaded into the head, summed, then tanh soft-clip (x2) to tame the crackle crest factor (so it reaches level with ~3 dB of limiting instead of 8).",
+    "wrap_check": {
+      "rms_last50": -26.1,
+      "rms_first50": -30.0,
+      "rms_delta_typical_p95": 5.4,
+      "wrap_jump": 0.00322,
+      "median_step": 0.00474,
+      "step_p99_9": 0.28982,
+      "seam_hf_vs_median_db": -2.7,
+      "file_hf_p99_vs_median_db": 23.5
+    },
+    "loop_start": 0.0,
+    "loop_end": 8.0
+  },
+  {
+    "file": "death.m4a",
+    "role": "ghost burns away",
+    "dur": 2.268,
+    "loop": false,
+    "accent": 0.478,
+    "onset": 0.033,
+    "lufs": -14.1,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -17.0,
+    "lufs_m_max": -14.1,
+    "lufs_s_max": -20.0,
+    "peak_dbfs": -2.06,
+    "true_peak_dbtp": -1.97,
+    "ffmpeg_ebur128": {
+      "lufs_i": -16.9,
+      "true_peak_dbtp": -2.0
+    },
+    "suggested_gain": 0.9,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 100035,
+    "bytes": 25656,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 383,
+      "pct_below_250hz": 48.5,
+      "pct_250_2k": 50.8,
+      "pct_2k_8k": 0.5,
+      "pct_above_8k": 0.3
+    },
+    "notes": "Pain wail on top of a deep fire whoosh (whoosh peaks ~0.6 s).",
+    "sources": [
+      {
+        "id": "d09f41de",
+        "desc": "Ethereal Entity Grim Pain Long 4",
+        "pack": "Vox Bestiae - Source Elements",
+        "vendor": "SoundBits",
+        "ranges": [
+          "0.000-1.660s"
+        ]
+      },
+      {
+        "id": "5cd992a0",
+        "desc": "Whoosh Fire Deep Growl Monster Saturated Crisp 03",
+        "pack": "Elemental Mutation Whooshes and Impacts",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.100-2.480s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "5cd992a0: mono sum OK (worst band -0.9 dB)",
+      "d09f41de: mono source"
+    ],
+    "processing": "5cd992a0 Whoosh Fire Deep Growl Monster Saturated Crisp 03, 0.10-2.48 s (lead-trimmed), HP 50 Hz + d09f41de Ethereal Entity Grim Pain Long 4, 0.00-1.66 s sped x1.12 (+2 st, the same ghost voice as the moans, in agony), HP 150 Hz, reverb RT60 1.2 s wet 0.25, layered at 0.02 s, +1 LU over the fire. Fade-out last 0.5 s."
+  },
+  {
+    "file": "death_big.m4a",
+    "role": "big wraith burns away",
+    "dur": 3.45,
+    "loop": false,
+    "accent": 0.677,
+    "onset": 0.024,
+    "lufs": -13.4,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -15.8,
+    "lufs_m_max": -13.4,
+    "lufs_s_max": -16.6,
+    "peak_dbfs": -1.33,
+    "true_peak_dbtp": -1.32,
+    "ffmpeg_ebur128": {
+      "lufs_i": -15.5,
+      "true_peak_dbtp": -1.3
+    },
+    "suggested_gain": 1.0,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 152145,
+    "bytes": 40302,
+    "limiter_gr_db": 1.5,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 1134,
+      "pct_below_250hz": 45.4,
+      "pct_250_2k": 33.7,
+      "pct_2k_8k": 19.5,
+      "pct_above_8k": 1.3
+    },
+    "notes": "Long monstrous pain yell over a slowed fire whoosh, ~3.4 s.",
+    "sources": [
+      {
+        "id": "5cd992a0",
+        "desc": "Whoosh Fire Deep Growl Monster Saturated Crisp 03",
+        "pack": "Elemental Mutation Whooshes and Impacts",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.100-2.480s"
+        ]
+      },
+      {
+        "id": "97464859",
+        "desc": "Designed Sea Beast Creature Pain Intense Yell Long 04",
+        "pack": "Humanoid Creatures Vol 4 - Monstrous and Undead Creature Vocalization Sound Sets",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.080-2.950s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "97464859: mono sum OK (worst band -0.8 dB)",
+      "5cd992a0: mono sum OK (worst band -0.9 dB)"
+    ],
+    "processing": "97464859 Designed Sea Beast Creature Pain Intense Yell Long 04, 0.08-2.95 s, slowed x0.9 (-1.8 st), HP 60 Hz, fade-out 1.0 s + 5cd992a0 Whoosh Fire Deep Growl Monster 0.10-2.48 s slowed x0.85 (-2.8 st), HP 40 Hz, at 0.05 s, 2 LU under the yell; reverb RT60 1.4 s wet 0.22, trimmed to 3.45 s with a 0.6 s fade."
+  },
+  {
+    "file": "click_on.m4a",
+    "role": "flashlight switch ON",
+    "dur": 0.12,
+    "loop": false,
+    "accent": 0.008,
+    "onset": 0.0,
+    "lufs": -27.2,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -27.2,
+    "lufs_m_max": -27.2,
+    "lufs_s_max": -36.0,
+    "peak_dbfs": -2.34,
+    "true_peak_dbtp": -2.14,
+    "ffmpeg_ebur128": {
+      "lufs_i": -70.0,
+      "true_peak_dbtp": -2.2
+    },
+    "suggested_gain": 0.6,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 5292,
+    "bytes": 2295,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 96,
+      "pct_below_250hz": 96.6,
+      "pct_250_2k": 2.8,
+      "pct_2k_8k": 0.5,
+      "pct_above_8k": 0.1
+    },
+    "notes": "Deep latch thunk, ~120 ms.",
+    "sources": [
+      {
+        "id": "d71f91d6",
+        "desc": "Click Deep Mechanism Latch Button Nearfield Thunk 02",
+        "pack": "HD Lock And Mechanism Sound Design Kit",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.000-0.160s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "d71f91d6: stereo cancels in mono (worst band -12.1 dB) -> took R channel"
+    ],
+    "processing": "d71f91d6 Click Deep Mechanism Latch Button Nearfield Thunk 02, 0.000-0.160 s. Its channels are anti-correlated (corr -0.57: a mono sum cancels the body), so the stronger single channel is used. HP 50 Hz, lead trimmed to the transient, 120 ms long, 40 ms fade-out."
+  },
+  {
+    "file": "click_off.m4a",
+    "role": "flashlight switch OFF",
+    "dur": 0.065,
+    "loop": false,
+    "accent": 0.01,
+    "onset": 0.0,
+    "lufs": -29.9,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -29.9,
+    "lufs_m_max": -29.9,
+    "lufs_s_max": -38.6,
+    "peak_dbfs": -4.25,
+    "true_peak_dbtp": -3.87,
+    "ffmpeg_ebur128": {
+      "lufs_i": -70.0,
+      "true_peak_dbtp": -3.9
+    },
+    "suggested_gain": 0.6,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 2866,
+    "bytes": 1686,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 3691,
+      "pct_below_250hz": 3.0,
+      "pct_250_2k": 23.8,
+      "pct_2k_8k": 66.0,
+      "pct_above_8k": 7.3
+    },
+    "notes": "Lighter single analog click, ~65 ms.",
+    "sources": [
+      {
+        "id": "e6a78f5b",
+        "desc": "UI Button Analog Vintage Double Click Neutral Dry Press 11",
+        "pack": "Board Game - Sound Set Kit for Tabletop and Digital Games",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.005-0.090s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "e6a78f5b: mono source"
+    ],
+    "processing": "e6a78f5b UI Button Analog Vintage Double Click Neutral Dry Press 11, 0.005-0.090 s (first click of the double click only), HP 120 Hz, lead trimmed to the transient, 65 ms long, 25 ms fade-out."
+  },
+  {
+    "file": "glitch.m4a",
+    "role": "ghost blinks out and reappears closer",
+    "dur": 0.652,
+    "loop": false,
+    "accent": 0.287,
+    "onset": 0.012,
+    "lufs": -17.1,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -17.8,
+    "lufs_m_max": -17.1,
+    "lufs_s_max": -25.4,
+    "peak_dbfs": -3.81,
+    "true_peak_dbtp": -3.69,
+    "ffmpeg_ebur128": {
+      "lufs_i": -17.7,
+      "true_peak_dbtp": -3.7
+    },
+    "suggested_gain": 0.7,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 28758,
+    "bytes": 15971,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 3615,
+      "pct_below_250hz": 41.8,
+      "pct_250_2k": 21.2,
+      "pct_2k_8k": 12.9,
+      "pct_above_8k": 24.1
+    },
+    "notes": "Reverse suck-out (0-0.22 s), 35 ms gap, stuttering electric re-appear at ~0.26 s (accent).",
+    "sources": [
+      {
+        "id": "5f9a67a2",
+        "desc": "Impact Electric Tonal Deep Movement Motion Hiss Glitch 01",
+        "pack": "Elemental Mutation Whooshes and Impacts",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.000-0.500s"
+        ]
+      },
+      {
+        "id": "04db6fba",
+        "desc": "Misc Monster Tentacle Modulated Creature Shadow Abstract Swept Wobble Lfo 02",
+        "pack": "Anime Game",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.500-1.100s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "5f9a67a2: mono sum OK (worst band -1.8 dB)",
+      "04db6fba: mono sum OK (worst band -0.9 dB)"
+    ],
+    "processing": "5f9a67a2 Impact Electric Tonal Deep Movement Motion Hiss Glitch 01: 0.02-0.24 s reversed (blink out, rising into a hard cut) + 0.02-0.42 s forward from 0.255 s with a stutter gate (re-appear) + 04db6fba Misc Monster Tentacle Modulated Creature Shadow Abstract Swept Wobble 0.50-1.10 s sped x1.5 (+7 st) at 0.255 s, -5 dB. HP 80 Hz, fades; ~0.66 s."
+  },
+  {
+    "file": "bell.m4a",
+    "role": "next wave: one deep church bell strike",
+    "dur": 3.9,
+    "loop": false,
+    "accent": 0.045,
+    "onset": 0.0,
+    "lufs": -16.0,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -20.9,
+    "lufs_m_max": -16.0,
+    "lufs_s_max": -21.9,
+    "peak_dbfs": -3.57,
+    "true_peak_dbtp": -3.56,
+    "ffmpeg_ebur128": {
+      "lufs_i": -20.8,
+      "true_peak_dbtp": -3.6
+    },
+    "suggested_gain": 0.8,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 171990,
+    "bytes": 38368,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 677,
+      "pct_below_250hz": 5.1,
+      "pct_250_2k": 94.7,
+      "pct_2k_8k": 0.2,
+      "pct_above_8k": 0.0
+    },
+    "notes": "One strike with ~3.9 s of natural decay (no other strike inside).",
+    "sources": [
+      {
+        "id": "e05dae67",
+        "desc": "04 Church Bells, Near Distance, In Church Tower-3 Different Bell 02",
+        "pack": "Church Bells",
+        "vendor": "Ivo Vicic",
+        "ranges": [
+          "11.690-15.240s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "e05dae67: stereo cancels in mono (worst band -6.2 dB) -> took R channel"
+    ],
+    "processing": "e05dae67 Church Bells, Near Distance, In Church Tower - 3 Different Bell 02, 11.690-15.240 s: the last strike of the first bell's run, followed by 3.5 s with no other strike. Slowed x0.8 (-3.9 st: hum ~280 Hz, strike note ~560 Hz -> a bigger, deeper bell), HP 60 Hz, lead trimmed to the strike, 3.9 s, fade-out 1.6 s."
+  },
+  {
+    "file": "braam.m4a",
+    "role": "boss wave: dark horn braam",
+    "dur": 3.9,
+    "loop": false,
+    "accent": 1.243,
+    "onset": 0.007,
+    "lufs": -13.0,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -15.3,
+    "lufs_m_max": -13.0,
+    "lufs_s_max": -16.0,
+    "peak_dbfs": -1.5,
+    "true_peak_dbtp": -1.5,
+    "ffmpeg_ebur128": {
+      "lufs_i": -15.2,
+      "true_peak_dbtp": -1.5
+    },
+    "suggested_gain": 0.9,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 171990,
+    "bytes": 41442,
+    "limiter_gr_db": 0.1,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 335,
+      "pct_below_250hz": 33.0,
+      "pct_250_2k": 67.0,
+      "pct_2k_8k": 0.0,
+      "pct_above_8k": 0.0
+    },
+    "notes": "Hit-first braam (accent at the start) so it syncs with the boss appearing; ~3.9 s.",
+    "sources": [
+      {
+        "id": "f758b7ae",
+        "desc": "DSGNBram____Cinematic Horn Braam, Epic, Cinematic, Dark, Instrument, Huge-67",
+        "pack": "Cinematic Horn Braams",
+        "vendor": "Jake Fielding",
+        "ranges": [
+          "0.100-3.700s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "f758b7ae: mono sum OK (worst band -1.4 dB)"
+    ],
+    "processing": "f758b7ae Cinematic Horn Braam, Epic, Cinematic, Dark, Instrument, Huge-67, 0.10-3.70 s (attack + sustain; chosen over 6b85bb1c, whose slow swell only peaks at ~2.4 s), HP 35 Hz, fade-out from 2.0 s (exp), reverb RT60 2.0 s wet 0.2 so the fade blooms instead of cutting; 3.9 s."
+  },
+  {
+    "file": "cleared.m4a",
+    "role": "wave cleared: eerie music-box phrase",
+    "dur": 3.0,
+    "loop": false,
+    "accent": 0.33,
+    "onset": 0.0,
+    "lufs": -18.0,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -20.8,
+    "lufs_m_max": -18.0,
+    "lufs_s_max": -22.3,
+    "peak_dbfs": -8.58,
+    "true_peak_dbtp": -8.57,
+    "ffmpeg_ebur128": {
+      "lufs_i": -20.6,
+      "true_peak_dbtp": -8.6
+    },
+    "suggested_gain": 0.8,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 132300,
+    "bytes": 33531,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 1690,
+      "pct_below_250hz": 0.0,
+      "pct_250_2k": 63.7,
+      "pct_2k_8k": 36.3,
+      "pct_above_8k": 0.0
+    },
+    "notes": "5-note minor phrase, slowing like a winding-down box, slightly detuned; ~3.0 s.",
+    "sources": [
+      {
+        "id": "3949ca5c",
+        "desc": "SBmb Music Box A 013",
+        "pack": "Music Boxes",
+        "vendor": "Sonic Bat",
+        "ranges": [
+          "0.040-2.800s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "3949ca5c: mono source"
+    ],
+    "processing": "3949ca5c SBmb Music Box A 013 (one clean ~944 Hz note, 0.04-2.80 s) re-pitched by resampling into a 5-note Bb-minor phrase F6 Db6 Bb5 Db6 F5 (+7.1, +2.92, 0, +3.08, -5.1 st: a few cents off, like an old box), onsets 0 / 0.26 / 0.55 / 0.88 / 1.30 s (winding down), reverb RT60 1.8 s wet 0.3, 3.0 s with 0.6 s fade. (A single tine sample was used instead of C 059 because C 059 is only a two-note fall, not a phrase.)"
+  },
+  {
+    "file": "relight.m4a",
+    "role": "candle relight (soft magic)",
+    "dur": 1.5,
+    "loop": false,
+    "accent": 0.809,
+    "onset": 0.014,
+    "lufs": -18.1,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -19.3,
+    "lufs_m_max": -18.1,
+    "lufs_s_max": -23.9,
+    "peak_dbfs": -6.48,
+    "true_peak_dbtp": -6.33,
+    "ffmpeg_ebur128": {
+      "lufs_i": -19.2,
+      "true_peak_dbtp": -6.3
+    },
+    "suggested_gain": 0.7,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 66150,
+    "bytes": 18054,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 1303,
+      "pct_below_250hz": 32.4,
+      "pct_250_2k": 44.7,
+      "pct_2k_8k": 20.0,
+      "pct_above_8k": 2.8
+    },
+    "notes": "Soft 60 ms attack, warm shimmer, ~1.5 s.",
+    "sources": [
+      {
+        "id": "ee30bf2c",
+        "desc": "Magic Light Spell Enchantment Potion Effect Tonal Bright 03",
+        "pack": "Fantasy Game 2 - Sound Kit for Enchanted Realms",
+        "vendor": "Epic Stock Media",
+        "ranges": [
+          "0.000-1.250s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "ee30bf2c: dual-mono source (L)"
+    ],
+    "processing": "ee30bf2c Magic Light Spell Enchantment Potion Effect Tonal Bright 03, 0.00-1.25 s, LP 8 kHz (softer), HP 120 Hz, 60 ms fade-in, 0.45 s fade-out, room reverb RT60 0.9 s wet 0.25 -> 1.5 s."
+  },
+  {
+    "file": "powerdown.m4a",
+    "role": "flashlight battery dies (electric fizzle)",
+    "dur": 0.85,
+    "loop": false,
+    "accent": 0.018,
+    "onset": 0.0,
+    "lufs": -18.4,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -20.2,
+    "lufs_m_max": -18.4,
+    "lufs_s_max": -25.9,
+    "peak_dbfs": -1.08,
+    "true_peak_dbtp": -1.02,
+    "ffmpeg_ebur128": {
+      "lufs_i": -20.0,
+      "true_peak_dbtp": -1.0
+    },
+    "suggested_gain": 0.8,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 37485,
+    "bytes": 11229,
+    "limiter_gr_db": 1.1,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 2146,
+      "pct_below_250hz": 14.1,
+      "pct_250_2k": 48.8,
+      "pct_2k_8k": 33.4,
+      "pct_above_8k": 3.7
+    },
+    "notes": "Fizzle flickers twice and drops in pitch (tape-stop) to nothing; ~0.85 s.",
+    "sources": [
+      {
+        "id": "3f212815",
+        "desc": "ArcDesign15",
+        "pack": "Arc",
+        "vendor": "InMotionAudio",
+        "ranges": [
+          "0.000-1.040s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "3f212815: mono sum OK (worst band -0.1 dB)"
+    ],
+    "processing": "3f212815 ArcDesign15 (electric arc), 0.00-1.04 s, played with a falling playback rate (1.0 for 0.10 s, then exponentially to 0.25 by 0.85 s = pitch dives ~2 octaves), flicker dropouts at 0.20-0.24, 0.37-0.40, 0.52-0.60 s, LP 10 kHz, HP 100 Hz, 0.25 s fade-out."
+  },
+  {
+    "file": "creak_1.m4a",
+    "role": "old-house creak A",
+    "dur": 1.419,
+    "loop": false,
+    "accent": 0.148,
+    "onset": 0.064,
+    "lufs": -23.7,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -26.7,
+    "lufs_m_max": -23.7,
+    "lufs_s_max": -29.9,
+    "peak_dbfs": -1.57,
+    "true_peak_dbtp": -1.54,
+    "ffmpeg_ebur128": {
+      "lufs_i": -26.6,
+      "true_peak_dbtp": -1.5
+    },
+    "suggested_gain": 0.5,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 62582,
+    "bytes": 17704,
+    "limiter_gr_db": 2.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 1052,
+      "pct_below_250hz": 18.0,
+      "pct_250_2k": 67.9,
+      "pct_2k_8k": 13.9,
+      "pct_above_8k": 0.2
+    },
+    "notes": "Wood-chair squeaks pitched down into a floorboard-like creak; ~1.3 s.",
+    "sources": [
+      {
+        "id": "e815b5d5",
+        "desc": "Sitting Down, Creaky Seat, Squeaks 3",
+        "pack": "Cinema Experience Vol. 1",
+        "vendor": "344 Audio",
+        "ranges": [
+          "0.120-1.250s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "e815b5d5: dual-mono source (L)"
+    ],
+    "processing": "e815b5d5 Sitting Down, Creaky Seat, Squeaks 3, 0.12-1.25 s (4 squeaks), dual-mono. The file is very quiet (peak -21.6 dBFS) so a downward expander (thr -72 dBFS, 3:1) cleans its hiss floor before the gain-up. Slowed x0.85 (-2.8 st), HP 120 Hz, room reverb RT60 0.7 s wet 0.15, fades."
+  },
+  {
+    "file": "creak_2.m4a",
+    "role": "old-house creak B",
+    "dur": 1.994,
+    "loop": false,
+    "accent": 1.414,
+    "onset": 0.004,
+    "lufs": -22.6,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -26.8,
+    "lufs_m_max": -22.6,
+    "lufs_s_max": -29.3,
+    "peak_dbfs": -2.23,
+    "true_peak_dbtp": -2.2,
+    "ffmpeg_ebur128": {
+      "lufs_i": -26.6,
+      "true_peak_dbtp": -2.2
+    },
+    "suggested_gain": 0.5,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 87942,
+    "bytes": 25028,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 961,
+      "pct_below_250hz": 28.2,
+      "pct_250_2k": 59.4,
+      "pct_2k_8k": 12.4,
+      "pct_above_8k": 0.1
+    },
+    "notes": "Deeper, longer creak (5 squeaks); ~1.9 s.",
+    "sources": [
+      {
+        "id": "e815b5d5",
+        "desc": "Sitting Down, Creaky Seat, Squeaks 3",
+        "pack": "Cinema Experience Vol. 1",
+        "vendor": "344 Audio",
+        "ranges": [
+          "2.000-3.420s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "e815b5d5: dual-mono source (L)"
+    ],
+    "processing": "e815b5d5 Sitting Down, Creaky Seat, Squeaks 3, 2.00-3.42 s (5 squeaks), expander as creak_1, slowed x0.72 (-5.7 st: a heavier, floorboard-like groan), HP 100 Hz, room reverb RT60 0.8 s wet 0.18, fades."
+  },
+  {
+    "file": "whoosh.m4a",
+    "role": "top-hat ghost sidestep whoosh",
+    "dur": 0.52,
+    "loop": false,
+    "accent": 0.302,
+    "onset": 0.006,
+    "lufs": -18.3,
+    "lufs_kind": "momentary max (400 ms)",
+    "lufs_i": -18.4,
+    "lufs_m_max": -18.3,
+    "lufs_s_max": -27.1,
+    "peak_dbfs": -5.74,
+    "true_peak_dbtp": -5.62,
+    "ffmpeg_ebur128": {
+      "lufs_i": -18.3,
+      "true_peak_dbtp": -5.6
+    },
+    "suggested_gain": 0.6,
+    "channels": 1,
+    "bitrate": "96k",
+    "samples": 22932,
+    "bytes": 7134,
+    "limiter_gr_db": 0.0,
+    "pre_encode_ceiling_dbtp": -1.5,
+    "spectrum": {
+      "centroid_hz": 4101,
+      "pct_below_250hz": 7.7,
+      "pct_250_2k": 20.3,
+      "pct_2k_8k": 62.4,
+      "pct_above_8k": 9.5
+    },
+    "notes": "Single air whoosh: swells to its peak ~0.25 s and dies by ~0.5 s.",
+    "sources": [
+      {
+        "id": "a7dda81c",
+        "desc": "Wind, Rush, Whoosh, Long x5 01",
+        "pack": "Elemental Palette Designed Vol. 1",
+        "vendor": "344 Audio",
+        "ranges": [
+          "0.520-1.040s"
+        ]
+      }
+    ],
+    "mono_fold": [
+      "a7dda81c: mono sum OK (worst band -0.4 dB)"
+    ],
+    "processing": "a7dda81c Wind, Rush, Whoosh, Long x5 01, 0.52-1.04 s (the second, cleaner of its two rushes: swell then decay), HP 150 Hz, 30 ms fade-in, 0.12 s fade-out."
+  }
+]

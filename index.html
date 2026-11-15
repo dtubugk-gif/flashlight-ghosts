@@ -231,7 +231,7 @@ svg{display:block}
       <li><b>Ghost w/ Tophat</b><span>מאת <a href="https://sketchfab.com/NobyGrand" target="_blank" rel="noopener">Noby Grand</a> · הג׳נטלמן עם המגבעת · <a href="https://sketchfab.com/3d-models/ghost-w-tophat-6b1217e3462440519a2d0e3e75bf16d3" target="_blank" rel="noopener">הדגם</a></span></li>
       <li><b>Ghost</b><span>מאת <a href="https://sketchfab.com/freshlybaked" target="_blank" rel="noopener">Diego T. Yamaguchi</a> · השדון עם הקרניים · <a href="https://sketchfab.com/3d-models/ghost-a0f01623a7c1418caaee24fa1c685c5e" target="_blank" rel="noopener">הדגם</a></span></li>
     </ul>
-    <p class="fine">ארבעת הדגמים האלה משמשים לפי רישיון <a href="https://creativecommons.org/licenses/by/4.0/deed.he" target="_blank" rel="noopener">CC BY 4.0</a>. לצורך המשחק הם שונו: גודל חדש, פישוט, טקסטורות ואנימציה. רוח הרפאים הגדולה נבנתה במיוחד למשחק ב־Blender. התלת־ממד מצויר עם <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> (רישיון MIT). הגופנים: Noto Serif Hebrew ו־Noto Sans Hebrew (רישיון OFL).</p>
+    <p class="fine">ארבעת הדגמים האלה משמשים לפי רישיון <a href="https://creativecommons.org/licenses/by/4.0/deed.he" target="_blank" rel="noopener">CC BY 4.0</a>. לצורך המשחק הם שונו: גודל חדש, פישוט, טקסטורות ואנימציה. רוח הרפאים הגדולה נבנתה במיוחד למשחק ב־Blender. התלת־ממד מצויר עם <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> (רישיון MIT). הגופנים: Noto Serif Hebrew ו־Noto Sans Hebrew (רישיון OFL). הצלילים: ספריית Sonniss GDC 2026. האנימציות נעשו ב־Blender.</p>
     <button class="btn ghost" id="creditsBack">חזרה</button>
   </div>
 </section>
@@ -673,6 +673,73 @@ const Sound = {
     this.noise = buf;
     this.buildAmbience(); this.buildSizzle();
     this.nextCreak = c.currentTime + 7;
+    this.loadSamples();
+  },
+  /* ---- recorded sounds (app/assets/sfx, Sonniss GDC 2026 library). The synthesized ones stay as a fallback. */
+  buf: {}, base: {}, last: {}, loops: {}, samplesReady: false,
+  async loadSamples() {
+    const c = this.ctx;
+    const names = ['amb_drone', 'amb_house', 'moan_1', 'moan_2', 'moan_3', 'moan_4', 'growl', 'hiss', 'scare', 'burn_loop', 'death', 'death_big',
+      'click_on', 'click_off', 'glitch', 'bell', 'braam', 'cleared', 'relight', 'powerdown', 'creak_1', 'creak_2', 'whoosh'];
+    try { const m = await (await fetch('sfx/manifest.json')).json(); for (const e of m) this.base[(e.file || '').replace(/\.m4a$/, '')] = e.suggested_gain ?? 1; } catch (e) {}
+    const decode = ab => new Promise((res, rej) => { const p = c.decodeAudioData(ab, res, rej); if (p && p.then) p.then(res, rej); });
+    await Promise.all(names.map(async n => {
+      try { const r = await fetch('sfx/' + n + '.m4a'); if (!r.ok) return; this.buf[n] = await decode(await r.arrayBuffer()); } catch (e) {}
+    }));
+    if (!this.buf.moan_1 || !this.buf.scare) return;   // keep the synthesized set
+    this.samplesReady = true;
+    // swap the beds: fade the synthesized drone and sizzle out, the recorded loops in
+    const t = c.currentTime;
+    const ambLevel = this.amb ? this.amb.gain.value : .6;
+    if (this.amb) this.amb.gain.setTargetAtTime(0, t, .6);
+    this.ambS = this.gain(0); this.ambS.connect(this.out); this.ambS.gain.setTargetAtTime(ambLevel, t, 1);
+    this.amb = this.ambS;
+    this.loops.drone = this.loop('amb_drone', this.ambS, 1);
+    this.houseG = this.gain(0); this.houseG.connect(this.ambS);
+    this.loops.house = this.loop('amb_house', this.houseG, 1);
+    if (this.sizzleG) this.sizzleG.gain.setTargetAtTime(0, t, .05);
+    this.burnG = this.gain(0); this.burnG.connect(this.out);
+    this.loops.burn = this.loop('burn_loop', this.burnG, 1);
+  },
+  loop(name, dest, vol) {
+    const b = this.buf[name]; if (!b) return null;
+    const s = this.ctx.createBufferSource(); s.buffer = b; s.loop = true;
+    const g = this.gain(vol * (this.base[name] ?? 1)); s.connect(g).connect(dest); s.start(this.ctx.currentTime + .05, Math.random() * b.duration * .9);
+    return s;
+  },
+  play(name, { vol = 1, pan = 0, rate = 1, delay = 0 } = {}) {
+    if (!this.ok()) return null;
+    const b = this.buf[name]; if (!b) return null;
+    const c = this.ctx, s = c.createBufferSource(); s.buffer = b; s.playbackRate.value = rate;
+    const g = this.gain(vol * (this.base[name] ?? 1)), pn = this.panner(pan);
+    s.connect(g).connect(pn).connect(this.out); s.start(c.currentTime + .005 + delay);
+    return s;
+  },
+  pickOf(prefix, n) { // a different take each time
+    let k; do { k = 1 + ((Math.random() * n) | 0); } while (n > 1 && k === this.last[prefix]);
+    this.last[prefix] = k; return prefix + '_' + k;
+  },
+  setHouse(on) { if (this.houseG) this.houseG.gain.setTargetAtTime(on ? 1 : 0, this.ctx.currentTime, .8); },
+  /** each ghost type has its own voice */
+  voice(type, pan = 0, vol = .5, big = false) {
+    if (!this.samplesReady) return this.moan(pan, vol, MOAN[type](), type === 'wraith' ? 2.8 : 1.8);
+    const r = rand(.94, 1.06);
+    if (type === 'wraith') { this.play('growl', { vol: vol * 1.1, pan, rate: .82 * r }); if (big || Math.random() < .5) this.play(this.pickOf('moan', 4), { vol: vol * .7, pan, rate: .8 * r, delay: .25 }); }
+    else if (type === 'imp') { this.play('hiss', { vol: vol * 1.1, pan, rate: .9 * r }); if (Math.random() < .4) this.play(this.pickOf('moan', 4), { vol: vol * .45, pan, rate: .84 * r, delay: .3 }); }
+    else this.play(this.pickOf('moan', 4), { vol, pan, rate: { sheet: .9, wisp: 1.35, gent: 1.15 }[type] * r });
+  },
+  heartbeat(intensity) { // the thump of your own heart when a ghost is close (scheduled ahead, faster when closer)
+    if (!this.ok() || intensity <= .01) { this.hbNext = 0; return; }
+    const c = this.ctx, now = c.currentTime;
+    if (this.hbNext && this.hbNext > now + .1) return;
+    const t = Math.max(now + .02, this.hbNext || 0), period = 60 / (66 + 74 * intensity);
+    for (const [dt, amp] of [[0, 1], [.16, .7]]) {
+      const o = c.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(62, t + dt); o.frequency.exponentialRampToValueAtTime(38, t + dt + .16);
+      const g = this.gain(0), lp = this.filt('lowpass', 160); o.connect(lp).connect(g).connect(this.out);
+      g.gain.setValueAtTime(0.0001, t + dt); g.gain.exponentialRampToValueAtTime(.55 * amp * intensity + .0002, t + dt + .018); g.gain.exponentialRampToValueAtTime(0.0001, t + dt + .2);
+      o.start(t + dt); o.stop(t + dt + .25);
+    }
+    this.hbNext = t + period;
   },
   ok() { return this.ctx && this.ctx.state === 'running' && !this.muted; },
   resume() { if (this.ctx && this.ctx.state !== 'running') this.ctx.resume().catch(() => {}); },
@@ -694,7 +761,10 @@ const Sound = {
   },
   setAmbience(v) { if (this.amb) this.amb.gain.setTargetAtTime(v, this.ctx.currentTime, .8); },
   buildSizzle() { const n = this.src(), hp = this.filt('highpass', 1800), bp = this.filt('bandpass', 4200, .6); this.sizzleG = this.gain(0); n.connect(hp).connect(bp).connect(this.sizzleG).connect(this.out); n.start(); },
-  setSizzle(v) { if (!this.sizzleG) return; this.sizzleG.gain.setTargetAtTime(v * .16 * (.55 + Math.random() * .9), this.ctx.currentTime, .025); },
+  setSizzle(v) {
+    if (this.burnG) { this.burnG.gain.setTargetAtTime(v * (.75 + Math.random() * .25), this.ctx.currentTime, .06); return; }
+    if (!this.sizzleG) return; this.sizzleG.gain.setTargetAtTime(v * .16 * (.55 + Math.random() * .9), this.ctx.currentTime, .025);
+  },
   moan(pan = 0, vol = .5, pitch = 170, dur = 2) {
     if (!this.ok()) return; const c = this.ctx, t = c.currentTime + .02;
     const o = c.createOscillator(); o.type = 'sawtooth';
@@ -709,12 +779,14 @@ const Sound = {
     o.start(t); v.start(t); n.start(t, Math.random()); o.stop(t + dur + .1); v.stop(t + dur + .1); n.stop(t + dur + .1);
   },
   click(on) {
+    if (this.samplesReady) { this.play(on ? 'click_on' : 'click_off', { vol: .9, rate: rand(.97, 1.03) }); return; }
     if (!this.ok()) return; const c = this.ctx, t = c.currentTime;
     const n = this.src(), f = this.filt(on ? 'highpass' : 'bandpass', on ? 2600 : 1400, 1), g = this.gain(0); n.connect(f).connect(g).connect(this.out);
     this.env(g, t, .002, on ? .3 : .18, .05); n.start(t, Math.random()); n.stop(t + .07);
     const o = c.createOscillator(), og = this.gain(0); o.frequency.value = on ? 1900 : 1200; o.connect(og).connect(this.out); this.env(og, t, .001, .05, .03); o.start(t); o.stop(t + .05);
   },
-  death(pan = 0) {
+  death(pan = 0, big = false) {
+    if (this.samplesReady) { this.play(big ? 'death_big' : 'death', { vol: 1, pan, rate: rand(.95, 1.05) }); return; }
     if (!this.ok()) return; const c = this.ctx, t = c.currentTime;
     const n = this.src(), bp = this.filt('bandpass', 300, 1.3), g = this.gain(0), pn = this.panner(pan);
     bp.frequency.setValueAtTime(300, t); bp.frequency.exponentialRampToValueAtTime(3200, t + .55);
@@ -726,6 +798,7 @@ const Sound = {
     for (let i = 0; i < 7; i++) { const tt = t + Math.random() * .7, cn = this.src(), cf = this.filt('highpass', 2400), cg = this.gain(0); cn.connect(cf).connect(cg).connect(pn); this.env(cg, tt, .001, .25 * Math.random() + .05, .025); cn.start(tt, Math.random()); cn.stop(tt + .04); }
   },
   scare() {
+    if (this.samplesReady) { this.play('scare', { vol: 1 }); return; }
     if (!this.ok()) return; const c = this.ctx, t = c.currentTime;
     const lp = this.filt('lowpass', 2800), g = this.gain(0); lp.connect(g).connect(this.out); this.env(g, t, .008, .42, 1.2);
     [1, 1.059, 1.498, 2.12, 2.83].forEach(r => { const o = c.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(196 * r * 1.1, t); o.frequency.exponentialRampToValueAtTime(196 * r * .92, t + 1.1); o.connect(lp); o.start(t); o.stop(t + 1.25); });
@@ -733,22 +806,27 @@ const Sound = {
     const s = c.createOscillator(), sg = this.gain(0); s.frequency.setValueAtTime(90, t); s.frequency.exponentialRampToValueAtTime(38, t + .45); s.connect(sg).connect(this.out); this.env(sg, t, .005, .8, .5); s.start(t); s.stop(t + .55);
   },
   bell(base = 196) {
+    if (!this.ok()) return;
+    if (this.samplesReady) { this.play(base < 160 ? 'braam' : 'bell', { vol: .9 }); return; }
     if (!this.ok()) return; const c = this.ctx, t = c.currentTime;
     [[1, .12, 2.6], [2, .05, 1.8], [2.76, .045, 1.4], [4.07, .03, 1], [5.4, .02, .7]].forEach(([r, v, d]) => {
       const o = c.createOscillator(), g = this.gain(0); o.frequency.value = base * r; o.connect(g).connect(this.out); this.env(g, t, .006, v, d); o.start(t); o.stop(t + d + .05);
     });
   },
   powerDown() {
+    if (this.samplesReady) { this.play('powerdown', { vol: .9 }); return; }
     if (!this.ok()) return; const c = this.ctx, t = c.currentTime;
     const o = c.createOscillator(), g = this.gain(0); o.type = 'square'; o.frequency.setValueAtTime(520, t); o.frequency.exponentialRampToValueAtTime(70, t + .4);
     const lp = this.filt('lowpass', 900); o.connect(lp).connect(g).connect(this.out); this.env(g, t, .005, .1, .45); o.start(t); o.stop(t + .5);
   },
   relight() {
+    if (this.samplesReady) { this.play('relight', { vol: .9 }); return; }
     if (!this.ok()) return; const c = this.ctx, t = c.currentTime;
     const n = this.src(), lp = this.filt('lowpass', 200, 1.5), g = this.gain(0); lp.frequency.setValueAtTime(200, t); lp.frequency.exponentialRampToValueAtTime(1500, t + .35);
     n.connect(lp).connect(g).connect(this.out); this.env(g, t, .05, .5, .6); n.start(t, Math.random()); n.stop(t + .65);
   },
   glitch(pan = 0, vol = .4) { // a ghost blinking out: a dry crackle and a short ghostly breath
+    if (this.samplesReady) { this.play('glitch', { vol: vol * 1.6, pan, rate: rand(.9, 1.1) }); return; }
     if (!this.ok()) return; const c = this.ctx, t = c.currentTime + .01;
     const n = this.src(), bp = this.filt('bandpass', rand(1400, 2600), 2.5), g = this.gain(0), pn = this.panner(pan);
     const am = c.createOscillator(); am.type = 'square'; am.frequency.value = rand(28, 46); const amg = this.gain(.9);
@@ -759,6 +837,8 @@ const Sound = {
     n.start(t, Math.random()); am.start(t); b.start(t, Math.random()); n.stop(t + .4); am.stop(t + .4); b.stop(t + .7);
   },
   creak() {
+    if (!this.ok()) return;
+    if (this.samplesReady) { this.play(this.pickOf('creak', 2), { vol: rand(.45, .8), pan: rand(-.9, .9), rate: rand(.85, 1.1) }); return; }
     if (!this.ok()) return; const c = this.ctx, t = c.currentTime, d = rand(.5, 1.1);
     const o = c.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(rand(70, 110), t); o.frequency.linearRampToValueAtTime(rand(90, 150), t + d);
     const am = c.createOscillator(); am.type = 'square'; am.frequency.value = rand(22, 38); const amg = this.gain(.5);
@@ -849,7 +929,7 @@ function spawnGhost(type, opts = {}) {
   const el = opts.el != null ? opts.el : (type === 'wraith' ? rand(1, 8) * DEG : type === 'imp' ? rand(-4, 8) * DEG : rand(-6, 15) * DEG);
   const g = makeGhost(type, az, el, opts.dist || rand(5.6, 6.8));
   ghosts.push(g); g.pos = dirFromAngles(g.az, g.el, g.dist); spawnMist(g);
-  Sound.moan(panOf(g), clamp(2 / g.dist, .25, .8), MOAN[type](), type === 'wraith' ? 2.8 : 1.8);
+  Sound.voice(type, panOf(g), clamp(2 / g.dist, .25, .8), true);
   return g;
 }
 const MOAN = { sheet: () => rand(150, 200), wisp: () => 260, wraith: () => 95, gent: () => rand(215, 240), imp: () => rand(105, 120) };
@@ -908,7 +988,8 @@ function updateGhost(g, dt, now) {
       g.az = d.from + (d.to - d.from) * e; d.yaw = d.side * .55 * Math.sin(Math.PI * u); d.roll = -d.side * .3 * Math.sin(Math.PI * u);
       if (u >= 1) g.dodge = null;
     }
-    g.hatTip = g.dodge ? Math.sin(Math.PI * Math.min(1, g.dodge.t / .38)) : (g.t < 1.1 ? Math.sin(g.t / 1.1 * Math.PI) * .8 : 0);
+    // the Blender 'Tip' action: he tips his hat when he appears and when he dodges (hatTipT = how far through it)
+    g.hatTip = g.dodge || g.t < 1.1 ? 1 : 0; g.hatTipT = g.dodge ? Math.min(1, g.dodge.t / .38) : Math.min(1, g.t / 1.1);
   }
   else { g.el = g.baseEl + Math.sin(g.t * .8) * .025; }
   g.pos = dirFromAngles(g.az, g.el, g.dist);
@@ -922,7 +1003,8 @@ function updateGhost(g, dt, now) {
     if (g.litT > .32) { // he sidesteps away from the middle of the beam
       const sx = g.scr ? g.scr.x - BX : 0, side = Math.abs(sx) > 8 ? Math.sign(sx) : (Math.random() < .5 ? -1 : 1);
       g.dodge = { t: 0, from: g.az, to: g.az + side * rand(19, 26) * DEG, side, yaw: 0, roll: 0 }; g.dodges--; g.litT = 0;
-      Sound.moan(panOf(g), clamp(1.6 / g.dist, .2, .6), 330, .45); hintOnce('gent', 'הג׳נטלמן מתחמק. אל תורידו ממנו את האור!', 3000);
+      if (Sound.samplesReady) Sound.play('whoosh', { vol: clamp(1.8 / g.dist, .3, .9), pan: panOf(g), rate: rand(.95, 1.1) }); else Sound.moan(panOf(g), clamp(1.6 / g.dist, .2, .6), 330, .45);
+      hintOnce('gent', 'הג׳נטלמן מתחמק. אל תורידו ממנו את האור!', 3000);
     }
   }
   if (g.L > .25) {
@@ -938,9 +1020,9 @@ function updateGhost(g, dt, now) {
     g.dist -= g.T.speed * game.diff * chase * dt * (g.fade < 1 ? .3 : 1) * (1 + g.lunge * .6);
   }
   g.moanAt -= dt;
-  if (g.moanAt <= 0) { g.moanAt = rand(4, 8); Sound.moan(panOf(g), clamp(1.8 / g.dist, .15, .75), MOAN[g.type]() * rand(.94, 1.04), g.type === 'wisp' ? 1.1 : 2); }
+  if (g.moanAt <= 0) { g.moanAt = rand(4, 8); Sound.voice(g.type, panOf(g), clamp(1.8 / g.dist, .15, .75)); }
   if (g.type === 'wraith' && !g.split && g.hp < g.T.hp * .5) {
-    g.split = true; Sound.moan(panOf(g), .8, 80, 2.4);
+    g.split = true; Sound.voice('wraith', panOf(g), .9, true);
     for (const d of [-1, 1]) { const w = spawnGhost('wisp', { az: g.az + d * 10 * DEG, el: g.el + 4 * DEG, dist: g.dist }); w.fade = .6; }
   }
   if (g.hp <= 0) return kill(g, now);
@@ -954,7 +1036,7 @@ function kill(g, now) {
   game.combo = now - game.lastKill < 2400 ? Math.min(5, game.combo + 1) : 1; game.lastKill = now;
   const pts = g.T.pts * game.combo; game.score += pts;
   addFloat(g, '+' + fmt(pts), game.combo > 1 ? '×' + game.combo : '');
-  deathBurst(g); Sound.death(panOf(g)); vibrate(g.type === 'wraith' ? [40, 30, 60] : 30);
+  deathBurst(g); Sound.death(panOf(g), g.type === 'wraith'); vibrate(g.type === 'wraith' ? [40, 30, 60] : 30);
 }
 function scare(g) {
   ghosts.splice(ghosts.indexOf(g), 1);
@@ -984,6 +1066,7 @@ function waveCleared() {
   let sub = '+' + fmt(bonus) + ' בונוס';
   if (game.waveClears % 3 === 0 && game.lives < 3) { game.lives++; renderCandles(); sub += ' · נר נדלק מחדש'; setTimeout(() => Sound.relight(), 500); }
   showBanner('הגל נוקה', sub, 'גל ' + game.wave);
+  if (Sound.samplesReady) Sound.play('cleared', { vol: .85, delay: .2 });
 }
 
 /* ================= game flow ================= */
@@ -1163,6 +1246,10 @@ function update(dt, now) {
   if (Sound.ctx) {
     let lit = 0; if (playing) for (const g of ghosts) if (g.dying < 0 && g.L > .25) lit += g.L;
     Sound.setSizzle(Math.min(1, lit));
+    Sound.setHouse(!(camOn && video.readyState >= 2));
+    let near = 0;
+    if (playing && !game.scare) for (const g of ghosts) if (g.dying < 0 && !g.demo && g.L < .25) near = Math.max(near, smooth(2.6, 1.0, g.dist));
+    Sound.heartbeat(near);
     if (Sound.ctx.currentTime > Sound.nextCreak) { Sound.nextCreak = Sound.ctx.currentTime + rand(9, 22); if (game.state !== 'paused') Sound.creak(); }
   }
   if (playing || game.state === 'paused') updateHud();
@@ -1561,6 +1648,7 @@ window.FG = {
   freeze: v => { frozen = !!v; },
   render: () => render(performance.now()),
   get g3d() { return G3D; },
+  get sound() { return Sound; },
   walk: (m) => { walk.pending += m; }, get walked() { return walk.moved; },
   light: on => { if (on) input.keys.add('Space'); else input.keys.delete('Space'); },
   step: (sec, n = 30) => { for (let i = 0; i < n; i++) { const t = performance.now(); update(sec / n, t); } render(performance.now()); },
