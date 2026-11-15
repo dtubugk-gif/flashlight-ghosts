@@ -1000,7 +1000,7 @@ function newGame() {
   Sound.setAmbience(.9);
   const first = game.camFailed ? 'המצלמה לא נפתחה, אז אתם בבית הרדוף. ' : '';
   game.camFailed = false;
-  setTimeout(() => showHint(first + (game.usingGyro ? 'הזיזו את הטלפון כדי להסתכל סביב בחדר.' : 'גררו כדי להסתכל סביב והחזיקו כדי להאיר. ללכת: המקשים WASD.'), first ? 5200 : 3800), 2600);
+  setTimeout(() => showHint(first + (game.usingGyro ? 'הזיזו את הטלפון כדי להסתכל סביב בחדר.' : (matchMedia('(pointer: coarse)').matches ? 'גררו כדי להסתכל סביב והחזיקו כדי להאיר.' : 'גררו כדי להסתכל סביב והחזיקו כדי להאיר. ללכת: המקשים WASD.')), first ? 5200 : 3800), 2600);
 }
 function pauseGame() { if (game.state !== 'play') return; game.state = 'paused'; input.pointers.clear(); setScreen('pause'); syncMute(); Sound.setSizzle(0); }
 function resumeGame() { if (game.state !== 'paused') return; game.state = 'play'; setScreen('hud'); if (camWanted && !camOn && !document.hidden) startCamera(); }
